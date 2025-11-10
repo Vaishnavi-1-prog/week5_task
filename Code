@@ -1,0 +1,78 @@
+class Book:
+    def __init__(self, book_id, title, author):
+        self.book_id = book_id
+        self.title = title
+        self.author = author
+        self.available = True
+
+    def details(self):
+        status = "Available" if self.available else "Issued"
+        print(f"{self.book_id}: {self.title} by {self.author} - {status}")
+
+
+class Member:
+    def __init__(self, name, member_id):
+        self.name = name
+        self.member_id = member_id
+
+    def info(self):
+        print(f"Member: {self.name}, ID: {self.member_id}")
+
+
+class Library:
+    def __init__(self):
+        self.books = []
+        self.members = []
+
+    def add_book(self, book):
+        self.books.append(book)
+        print("✅ Book added to library.")
+
+    def add_member(self, member):
+        self.members.append(member)
+        print("✅ Member registered.")
+
+    def issue_book(self, book_id, member_id):
+        for book in self.books:
+            if book.book_id == book_id and book.available:
+                book.available = False
+                print(f"✅ {book.title} issued to Member {member_id}.")
+                return
+        print("❌ Book not available or invalid ID.")
+
+    def return_book(self, book_id):
+        for book in self.books:
+            if book.book_id == book_id:
+                book.available = True
+                print(f"✅ {book.title} returned.")
+                return
+        print("❌ Invalid book ID.")
+
+    def show_books(self):
+        print("\n📚 Library Books:")
+        for book in self.books:
+            book.details()
+
+
+# ------------------------
+# USING THE SYSTEM
+# ------------------------
+lib = Library()
+
+# Add books
+lib.add_book(Book(1, "Python Basics", "John Doe"))
+lib.add_book(Book(2, "AI Foundations", "Sarah Lee"))
+
+# Add members
+lib.add_member(Member("Vaishnavi", 101))
+lib.add_member(Member("Kiran", 102))
+
+# Show books
+lib.show_books()
+
+# Issue and return books
+lib.issue_book(1, 101)
+lib.show_books()
+
+lib.return_book(1)
+lib.show_books()
